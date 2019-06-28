@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+<body>
+    <h1>Scalabel Vector Graphics</h1>
+    <svg>
+        <circle cx='100' cy='25' r='20' fill='blue'/>
+        <rect x='0' y='0' width='100' height='50' fill='red'/>
+    </svg>
+    <h1>Polygon</h1>
+    <svg>
+        <polygon points='0,0 100,0 200,100,250,50 300 300 0,300'/>
+    </svg>
+    
+    <svg>
+        <rect x='0' y='0' width='19' height='150'fill='red'/>
+        <rect x='20' y='20' width='19' height='130'fill='orange'/>
+        <rect x='40' y='50' width='19' height='100'fill='yellow'/>
+        <rect x='60' y='10' width='19' height='140'fill='green'/>
+        <rect x='80' y='100' width='19' height='50'fill='blue'/>
+        <rect x='100' y='30' width='19' height='120'fill='indigo'/>
+        <rect x='120' y='40' width='19' height='110'fill='violet'/>
+    </svg>
+    <h1>D3 and SVG</h1>
+    
+    <div id="draw-here"></div>
+    
+    <div id="draw-here"></div>
+
+    <script>
+    var w = 600;
+    var h = 200;
+    var data = [40, 50, 10, 30, 20, 5];
+    //Create SVG element
+    var svg = d3.select("#draw-here")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+    svg.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d, i) {
+        //d is the data and i is the array index
+            return 50 + (i * 100);
+        })
+        .attr("cy", h / 2)
+        .attr("r", function (d) {
+            return d;
+        });
+    </script>
+    <!-------------------------------------------------------------------------->
+    <h1>Create A Bar Chart With D3</h1>
+        <div id="draw-here2"></div>
+            
+    <script>
+        var h = 500;
+        var w = 500;
+        var barPadding = 1; 
+        
+        var dataset = [
+            450, 100, 100, 279, 500, 25, 350, 120, 80, 130,
+            110, 102, 375, 200, 175, 168, 180, 230, 205,
+            ];
+            
+            var scale = d3.scale.linear()
+                                .domain([0, 600])//domains represents the lowest and highest point
+                                .range([0, 500]); //representation of the data visualization
+           
+            var colWidht = w /dataset.length;
+            var barWidht = colWidht - barPadding;
+            
+        var svg = d3.select("#draw-here2")
+            .append("svg")
+            .attr("height", h)
+            .attr("width", w);
+            
+        svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function (d, i){
+                return i * colWidht; //to show all the columns whew d== data & i is the array
+            })
+            .attr("y", function (d){
+                return h - scale(d);
+            })
+            .attr("height", function (d){
+                return scale (d);
+                
+            })
+            .attr("width", barWidht);
+            
+            svg.selectAll("text")
+                .data(dataset)
+                .enter()
+                .append("text")
+                .text(function(d){
+                    return d;
+                })
+                
+                .attr("text-anchor", "middle") //to center the text on the bar
+                .attr("x",function (d, i) {
+                    return i * colWidht + barWidht / 2;
+                })
+                .attr("y", function(d) {
+                    return h - scale(d) + 14; // 14pixels down from the top of the bar itself it's positioning 
+    
+                })
+                .attr("font-family", "sans-serif")  
+                .attr("font-size","11px")  
+                .attr("fill", "white");  
+    </script>
+      <!-------------------------------------------------------------------------->
+    
+ 
+    
+    
+    
+    
+</body>
+</html>
